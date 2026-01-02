@@ -2,24 +2,18 @@ name: Windows.
 
 on:
   push:
-    paths-ignore:
+    branches:
+      - dev          # 确保监听的是你的 dev 分支
+    paths-ignore:    # 以下原有的忽略路径保持不变
       - "docs/**"
       - "**.md"
-      - "!docs/building-win*.md"
+      - "docs/building-win*.md"
       - "changelog.txt"
       - "LEGAL"
       - "LICENSE"
       - ".github/**"
       - "!.github/workflows/win.yml"
-      - "lib/xdg/**"
-      - "snap/**"
-      - "Telegram/build/docker/**"
-      - "Telegram/Resources/uwp/**"
-      - "Telegram/SourceFiles/platform/linux/**"
-      - "Telegram/SourceFiles/platform/mac/**"
-      - "Telegram/Telegram/**"
-      - "Telegram/configure.sh"
-      - "Telegram/Telegram.plist"
+  workflow_dispatch:  # 关键：添加这一行，让你能手动点击运行
   pull_request:
     paths-ignore:
       - "docs/**"
