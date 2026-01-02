@@ -12,13 +12,22 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 同步上游代码
-        uses: a260020290/pull-request-mirror-action@v1.1.0
-        with:
-          base: dev         # 你的分支
-          head: dev         # 上游的分支
-          owner: frknkrc44  # 原作者名
-          repo: tdesktop-x64
+      - name: 配置 Git 信息
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+
+      - name: 添加上游仓库并同步
+        run: |
+          # 1. 添加原作者仓库作为远程源
+          git remote add upstream https://github.com/frknkrc44/tdesktop-x64.git
+          # 2. 获取上游数据
+          git fetch upstream dev
+          # 3. 合并上游的 dev 分支到你的 dev 分支
+          git checkout dev
+          git merge upstream/dev
+          # 4. 推送到你自己的 GitHub 仓库
+          git push origin dev
